@@ -3,24 +3,25 @@ let addCarts = document.querySelectorAll('.add-cart');
 let number = 0;
 
 class Product{
-    constructor(id,name,precio,inCart){
+    constructor(id,name,precio){
         this.id = id;
         this.name = name.toUpperCase();
         this.price= parseFloat(precio);
+        this.inCart = parseInt (0);
         
     }
 }
 
 async function fetchProducts(){
-    const response= await fetch('./data.json')
+    let response = await fetch('./data.json')
     return await response.json()
 }
 
 let stock =[];
 
 fetchProducts().then(products => {
-    stock = products;
-    showProducts();
+    stock = products
+    showProducts()
 })
 
 
@@ -29,13 +30,13 @@ const seccionProducts = document.querySelector('.container')
 
 function showProducts(){
     for( product of stock){
-        const {tag, name, price, inCart} = product;
+        const {tag, name, price, inCart,id} = product;
         const productHTML = `
         <div class="image">
         <img src="image/${tag}.jpg"> </img>
         <h3> ${name}</h3>
         <h3>$${price}0</h3>
-        <a class="add-cart cart1" href="#">add Cart</a> 
+        <a class="add-cart cart${id}" href="#">add Cart</a> 
         </div>
         `
         seccionProducts.innerHTML += productHTML
@@ -47,28 +48,36 @@ showProducts();
 
 
 
-function setItems(product) {
-    let cartItems = localStorage.getItem('productsInCart');
-    cartItems = JSON.parse(cartItems); //paso de JSON a JS object
-    if(cartItems != null){
-        if(cartItems[product.tag] == undefined){ //undefined es porque ese obj no esta en el JSON
-            cartItems = {
-                ...cartItems, //agarro todo lo que esaba en el cartItems 
-                [product.tag]: product //Agrego el nuevo producto
-            }
-        }
-      cartItems[product.tag].inCart += 1;
+function totalCost(product){
+    let cartCost = localStorage.getItem('totalCost');
+    if(cartCost != null){
+      cartCost = parseInt(cartCost);
+      localStorage.setItem("totalCost", cartCost + product.price);
     } else {
-    product.inCart = 1;
-        cartItems = {
-            [product.tag]: product
-        }
+    localStorage.setItem("totalCost", product.price);
+    }
+}
+
+
+let cartItems = JSON.parse(localStorage.getItem('productsInCart')) || [];
+
+
+
+function setItems(id) {
+
+    const product = stock.find(product => product.id = id);
+    if(cartItems.find(product = product.id == id)){
+        const product = cartItems.find(product => product.id == id)
+            product.cant++
+    } else {
+         cartItems.push({
+            ...product,
+            cant: 1
+         })
     }
         localStorage.setItem("productsInCart", JSON.stringify(cartItems));
         //Uso el stingify para no pasarlo como objeto. 
 }
-
-
 
 
 
@@ -84,11 +93,12 @@ function cartNumbers(product){
     localStorage.setItem('cartNumbers', 1);
     document.querySelector('.cart span').textContent = productNumbers;
  }
- setItems(product);
+ setItems(product.id);
 }
 
 
 
+/*TIENE LO QUE PIDE LA CLASE 12*/
 
 function onLoadCartNumbers(){
     let productNumbers = localStorage.getItem('cartNumbers');
@@ -100,10 +110,9 @@ function onLoadCartNumbers(){
 
 for (let i= 0; i < addCarts.length; i++){
     addCarts[i].addEventListener('click',()=>{
-        cartNumbers(products[i]);
-        totalCost(products[i]);
+        cartNumbers(stock[i]);
         Toastify({
-            text: "Agregaste " + products[i].name,
+            text: "Agregaste " + stock[i].name,
             duration: 3000,
             gravity: 'bottom',
             position: 'left',
@@ -116,13 +125,4 @@ for (let i= 0; i < addCarts.length; i++){
         })
 }
 
-function totalCost(product){
-    let cartCost = localStorage.getItem('totalCost');
-    if(cartCost != null){
-      cartCost = parseInt(cartCost);
-      localStorage.setItem("totalCost", cartCost + product.price);
-    } else {
-    localStorage.setItem("totalCost", product.price);
-    }
-}
-
+onLoadCartNumbers();
