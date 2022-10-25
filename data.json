@@ -1,23 +1,28 @@
-
-    [
-        {   "name": "Crema para la cara",
-            "tag": "crema_cara",
-            "price": "2000",
-            "inCart": "0",
-            "id" : "1"
+  
+     [
+        {   
+            
+        "name": "Crema para la cara",
+        "tag": "crema_cara",
+        "price": 2000,
+        "inCart": 0,
+        "id": "1"
         },
-        {   "name": "Crema para el cuerpo",
+        {   
+            
+        "name": "Crema para el cuerpo",
         "tag": "crema_cuerpo",
-        "price": "3000",
-        "inCart": "0",
-        "id" : "2"
+        "price": 3000,
+        "inCart": 0,
+        "id": "2"
         },
     
-        {   "name": "Jabon para la cara",
+        {   
+        "name": "Jabon para la cara",
         "tag": "jabon_cara",
-        "price": "2500",
-        "inCart": "0",
-        "id" : "3"
+        "price": 2500,
+        "inCart": 0,
+        "id": "3"
         }
     
     ]
