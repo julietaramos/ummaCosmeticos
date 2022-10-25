@@ -96,9 +96,8 @@ function JSalert(){
             return false   
             }      
          else {localStorage.clean();
-          setTimeout(() => {
-            window.location.href = "/"
-        }, 3000) 
+          onLoadCartNumbersCart(); 
+          displayCart();
         }   
         });
 
