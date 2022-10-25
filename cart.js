@@ -78,9 +78,11 @@ displayCart();
 
 
 function JSalert(){
-	Swal.fire({  title: "Require Email!",   
-    text: "Enter your email address:",   
-    type: "input",   
+	Swal.fire({  
+     
+    text: "Agregar email para recibir facturacion:",    
+    title: 'Finalizar compra',
+    input: 'email',   
     showCancelButton: true,   
     closeOnConfirm: false,   
     animation: "slide-from-top",   
@@ -93,10 +95,14 @@ function JSalert(){
             swal.showInputError("Please enter email!");     
             return false   
             }      
-         swal("Action Saved!", "You entered following email: " + inputValue, "success"); });
-         //deleteProducts();
-}
+         else {localStorage.clean();
+          setTimeout(() => {
+            window.location.href = "/"
+        }, 3000) 
+        }   
+        });
 
+}
 
 
 

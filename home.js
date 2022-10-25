@@ -40,7 +40,16 @@ function showProducts() {
         addCarts[i].addEventListener('click', () => {
             cartNumbers(products[i]);
             totalCost(products[i]);
+            Toastify({
+                text: "Producto Agregado",
+                className: "info",
+                style: {
+                  background: "linear-gradient(to right, #e68e83, #ad7e7b, #d65c85)",
+                }
+              }).showToast();
         })
+
+
     }
     onLoadCartNumbers();
 }
