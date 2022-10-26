@@ -1,16 +1,16 @@
 
- 
-let cartItems=localStorage.getItem("productsInCart") || [];
- cartItems = JSON.parse(cartItems)
 
-function displayCart(){
- let productContainer = document.querySelector(".products");
- let cartCost = localStorage.getItem('totalCost');
- for(const item of cartItems){
-    const {tag, name, price, inCart, id} = item;
+let cartItems = localStorage.getItem("productsInCart") || [];
+cartItems = JSON.parse(cartItems)
+
+function displayCart() {
+  let productContainer = document.querySelector(".products");
+  let cartCost = localStorage.getItem('totalCost');
+  for (const item of cartItems) {
+    const { tag, name, price, inCart, id } = item;
     const div = document.createElement('div');
-    div.setAttribute("id",tag);
-         const itemHTML = `
+    div.setAttribute("id", tag);
+    const itemHTML = `
           
            
             <button class="delete-cart cart${id}  onclick="quitarDelCarrito(${id})"" >ELIMINAR</button> 
@@ -36,45 +36,45 @@ function displayCart(){
               </div>
           
             `
-            div.innerHTML += itemHTML;
-            productContainer.appendChild(div);
- }
+    div.innerHTML += itemHTML;
+    productContainer.appendChild(div);
+  }
 
- let add = document.querySelectorAll('.add-product');
- for (let i = 0; i < add.length; i++) {
-   add[i].addEventListener('click', () => {
-    cartNumbersCart(cartItems[i])
-    totalCost(cartItems[i])
-         Toastify({
-             text: "Producto Agregado",
-             className: "info",
-             style: {
-               background: "linear-gradient(to right, #e68e83, #ad7e7b, #d65c85)",
-             }
-           }).showToast();
-     })
+  let add = document.querySelectorAll('.add-product');
+  for (let i = 0; i < add.length; i++) {
+    add[i].addEventListener('click', () => {
+      cartNumbersCart(cartItems[i])
+      totalCost(cartItems[i])
+      Toastify({
+        text: "Producto Agregado",
+        className: "info",
+        style: {
+          background: "linear-gradient(to right, #e68e83, #ad7e7b, #d65c85)",
+        }
+      }).showToast();
+    })
 
-    }
+  }
 
 
 
-    let del = document.querySelectorAll('.delete-cart');
-    for (let i = 0; i < del.length; i++) {
-     del[i].addEventListener('click', () => {
+  let del = document.querySelectorAll('.delete-cart');
+  for (let i = 0; i < del.length; i++) {
+    del[i].addEventListener('click', () => {
       cartNumbersDecrece(cartItems[i])
       decreceTotalCost(cartItems[i])
-            Toastify({
-                text: "Producto ELIMINADO",
-                className: "info",
-                style: {
-                  background: "linear-gradient(to right, #e68e83, #ad7e7b)",
-                }
-              }).showToast();
+      Toastify({
+        text: "Producto ELIMINADO",
+        className: "info",
+        style: {
+          background: "linear-gradient(to right, #e68e83, #ad7e7b)",
+        }
+      }).showToast();
 
-        })
-   
-   
-       }
+    })
+
+
+  }
 
 
 
@@ -94,9 +94,9 @@ function onLoadCartNumbersCart() {
 
 const seccionResumen = document.querySelector('#resum')
 function displayResume() {
-  let cartCost = localStorage.getItem("totalCost") 
-    seccionResumen.innerHTML = " "
-    const resumen = `
+  let cartCost = localStorage.getItem("totalCost")
+  seccionResumen.innerHTML = " "
+  const resumen = `
     <div class="basketTotalContainer">
         <h4 class="basketTotalTitle">
              Total Carrito
@@ -104,66 +104,15 @@ function displayResume() {
              <h4 class="basketTotal">
              $ ${cartCost},00
              </h4>
-       <a class="btn" href="form.html">Comprar</a>
+       <button ><a class="btn" href="form.html">Comprar</a> </button>
     </div>`
-    seccionResumen.innerHTML += resumen
+  seccionResumen.innerHTML += resumen
 }
 
 displayResume();
 
 
-/*
-function displayResume(){
-  let productContainer = document.querySelector(".products");
-  productContainer.innerHTML += `
-  <div class="basketTotalContainer">
-      <h4 class="basketTotalTitle">
-           Total Carrito
-           </h4>
-           <h4 class="basketTotal">
-           $ ${cartCost},00
-           </h4>
-  <button onclick="JSalert()">COMPRAR</button>
-  </div>`
 
-
-}
-  
-*/
-
-
-  
-     /*let deleteProduct = document.querySelectorAll('.delete-cart');
-     for(let i = 0; i< deleteProduct.length; i++){
-           deleteProduct[i].addEventListener('click',(e)=>{
-             deleteProd(e);
-            })
-
-     } 
-
-     let addProduct = document.querySelectorAll('.add-product')
-     for (let i= 0; i < addProduct.length; i++){
-        addProduct[i].addEventListener('click',(e)=>{
-            cartNumbersCart(e);
-            localStorage.setItem("productsInCart", JSON.stringify(cartItems))
-          
-            })
-    } 
-
-        productContainer.innerHTML += `
-        <div class="basketTotalContainer">
-            <h4 class="basketTotalTitle">
-                 Total Carrito
-                 </h4>
-                 <h4 class="basketTotal">
-                 $ ${cartCost},00
-                 </h4>
-        <button onclick="JSalert()">COMPRAR</button>
-        </div>
-     
-           `;
-*/
-          
 
 
 
@@ -174,18 +123,17 @@ function displayResume(){
 /*AGREGAR PRODUCTOS */
 
 
-function setItemsCart(p){
-      const prod = cartItems.find(prod => prod.id == p.id)
-      prod.inCart++
+function setItemsCart(p) {
+  const prod = cartItems.find(prod => prod.id == p.id)
+  prod.inCart++
   localStorage.setItem("productsInCart", JSON.stringify(cartItems));
-} 
+}
 
 
 
 function cartNumbersCart(product) {
 
   let productNumbers = localStorage.getItem('cartNumbers');
-  //El tipo que trae es string//
   productNumbers = parseInt(productNumbers);
 
   localStorage.setItem('cartNumbers', productNumbers + 1);
@@ -194,6 +142,7 @@ function cartNumbersCart(product) {
   onLoadCartNumbersCart();
   const prod = cartItems.find(prod => prod.id == product.id)
   resetProduct(prod);
+  window.location.reload();
 }
 
 
@@ -201,10 +150,10 @@ function cartNumbersCart(product) {
 function totalCost(product) {
   let cartCost = localStorage.getItem('totalCost');
   if (cartCost != null) {
-      cartCost = parseInt(cartCost) + product.price;
-      localStorage.setItem("totalCost", cartCost);
+    cartCost = parseInt(cartCost) + product.price;
+    localStorage.setItem("totalCost", cartCost);
   } else {
-      localStorage.setItem("totalCost", product.price);
+    localStorage.setItem("totalCost", product.price);
   }
 }
 
@@ -213,8 +162,7 @@ function decreceTotalCost(product) {
   let totalItems = localStorage.getItem('cartNumbers');
   let cartCost = localStorage.getItem('totalCost');
   cartCost = parseInt(cartCost) - product.price;
-  if(totalItems < 0 )
-  {cartCost = totalItems }
+  if (totalItems < 0) { cartCost = totalItems }
   localStorage.setItem("totalCost", cartCost);
 
 }
@@ -223,16 +171,16 @@ function decreceTotalCost(product) {
 function cartNumbersDecrece(product) {
 
   let productNumbers = localStorage.getItem('cartNumbers');
-  //El tipo que trae es string//
   productNumbers = parseInt(productNumbers);
-   if(productNumbers != 0 ){
-  localStorage.setItem('cartNumbers', productNumbers - 1);
-  document.querySelector('.cart span').textContent = productNumbers - 1;
-  deleteItem(product);
-   }
-   onLoadCartNumbersCart();
-   const prod = cartItems.find(prod => prod.id == product.id)
-   resetProduct(prod)
+  if (productNumbers != 0) {
+    localStorage.setItem('cartNumbers', productNumbers - 1);
+    document.querySelector('.cart span').textContent = productNumbers - 1;
+    deleteItem(product);
+  }
+  onLoadCartNumbersCart();
+  const prod = cartItems.find(prod => prod.id == product.id)
+  resetProduct(prod)
+  window.location.reload();
 }
 
 
@@ -244,23 +192,26 @@ function cartNumbersDecrece(product) {
 
 
 function deleteItem(p) {
-  const prod = cartItems.find(prod => prod.id == p.id )
+  const prod = cartItems.find(prod => prod.id == p.id)
   if (prod.inCart === 1) {
-      cartItems.splice(cartItems.findIndex(prod => prod.id == p.id), 1)
+    cartItems.splice(cartItems.findIndex(prod => prod.id == p.id), 1)
+    localStorage.setItem('productsInCart', JSON.stringify(cartItems));
+    decreceTotalCost(p)
+    window.location.reload();
   } else {
-      prod.inCart--
+    prod.inCart--
   }
 
-localStorage.setItem('productsInCart', JSON.stringify(cartItems))
+  localStorage.setItem('productsInCart', JSON.stringify(cartItems))
 
 }
 
 
-function resetProduct(product){
+function resetProduct(product) {
 
-  let containerProd =  document.querySelector("#"+product.tag);
-  containerProd.innerHTML = 
-  `   <button class="delete-cart cart${product.id}  onclick="quitarDelCarrito(${product.id})"" >ELIMINAR</button> 
+  let containerProd = document.querySelector("#" + product.tag);
+  containerProd.innerHTML =
+    `   <button class="delete-cart cart${product.id}  onclick="quitarDelCarrito(${product.id})"" >ELIMINAR</button> 
   <button class="add-product cart${product.id}" >AGREGAR</button> 
   <div class="product">
  

@@ -1,6 +1,5 @@
 
 
-onLoadCartNumbers();
 
 let number = 0;
 
@@ -88,6 +87,9 @@ function cartNumbers(product) {
         document.querySelector('.cart span').textContent = productNumbers + 1;
     } else {
         localStorage.setItem('cartNumbers', 1);
+        if(isNaN(productNumbers)){
+            productNumbers = 1;
+        }   
         document.querySelector('.cart span').textContent = productNumbers;
     }
     setItems(product);

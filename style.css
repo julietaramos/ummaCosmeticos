@@ -180,7 +180,7 @@ li a{
 
 .basketTotalContainer{
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     width: 100%;
     padding: 10px 0;
 }
@@ -194,6 +194,21 @@ li a{
 }
 
 ion-icon {width: 20px;}
+
+
+.basketTotal button {
+    font-size:17px; 
+    text-align:center; 
+    padding:10px; 
+    border-width:5px; 
+    border-radius:23px; 
+    border-style:solid; 
+    color:#5c115c; 
+    border-color:#f7c1ea; 
+    background-color:#f7cdf7; 
+}
+
+
 
 .product-reference{
     width: 20%;
@@ -214,6 +229,10 @@ ion-icon {width: 20px;}
     border-radius: 5px;
     margin: 10px 0;
 }
+
+
+
+
 
 .formCompra button {
     width: 100%;
