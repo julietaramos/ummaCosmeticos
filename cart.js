@@ -1,8 +1,4 @@
 
-function onLoadCartNumbersCart() {
-  let productNumbers = localStorage.getItem('cartNumbers');
-  productNumbers != null && (document.querySelector('.cart span').textContent = productNumbers);
-}
  
 let cartItems=localStorage.getItem("productsInCart") || [];
  cartItems = JSON.parse(cartItems)
@@ -12,10 +8,12 @@ function displayCart(){
  let cartCost = localStorage.getItem('totalCost');
  for(const item of cartItems){
     const {tag, name, price, inCart, id} = item;
+    const div = document.createElement('div');
+    div.setAttribute("id",tag);
          const itemHTML = `
           
            
-                     <button class="delete-cart cart${id}" >ELIMINAR</button> 
+            <button class="delete-cart cart${id}  onclick="quitarDelCarrito(${id})"" >ELIMINAR</button> 
             <button class="add-product cart${id}" >AGREGAR</button> 
             <div class="product">
            
@@ -29,30 +27,126 @@ function displayCart(){
               <div class="price"> ${price}</div>
               <div class="quantity"> 
            
-              <span> ${inCart} </span>
+              <span > ${inCart} </span>
              
               </div>
-              <div class="total">
+              <div class="total" >
               $${inCart * price},00
               </div>
               </div>
           
             `
-            productContainer.innerHTML += itemHTML;
+            div.innerHTML += itemHTML;
+            productContainer.appendChild(div);
  }
+
+ let add = document.querySelectorAll('.add-product');
+ for (let i = 0; i < add.length; i++) {
+   add[i].addEventListener('click', () => {
+    cartNumbersCart(cartItems[i])
+    totalCost(cartItems[i])
+         Toastify({
+             text: "Producto Agregado",
+             className: "info",
+             style: {
+               background: "linear-gradient(to right, #e68e83, #ad7e7b, #d65c85)",
+             }
+           }).showToast();
+     })
+
+    }
+
+
+
+    let del = document.querySelectorAll('.delete-cart');
+    for (let i = 0; i < del.length; i++) {
+     del[i].addEventListener('click', () => {
+      cartNumbersDecrece(cartItems[i])
+      decreceTotalCost(cartItems[i])
+            Toastify({
+                text: "Producto ELIMINADO",
+                className: "info",
+                style: {
+                  background: "linear-gradient(to right, #e68e83, #ad7e7b)",
+                }
+              }).showToast();
+
+        })
+   
+   
+       }
+
+
+
+}
+
+
+onLoadCartNumbersCart();
+displayCart();
+
+
+
+function onLoadCartNumbersCart() {
+  let productNumbers = localStorage.getItem('cartNumbers');
+  productNumbers != null && (document.querySelector('.cart span').textContent = productNumbers);
+}
+
+
+const seccionResumen = document.querySelector('#resum')
+function displayResume() {
+  let cartCost = localStorage.getItem("totalCost") 
+    seccionResumen.innerHTML = " "
+    const resumen = `
+    <div class="basketTotalContainer">
+        <h4 class="basketTotalTitle">
+             Total Carrito
+             </h4>
+             <h4 class="basketTotal">
+             $ ${cartCost},00
+             </h4>
+       <a class="btn" href="form.html">Comprar</a>
+    </div>`
+    seccionResumen.innerHTML += resumen
+}
+
+displayResume();
+
+
+/*
+function displayResume(){
+  let productContainer = document.querySelector(".products");
+  productContainer.innerHTML += `
+  <div class="basketTotalContainer">
+      <h4 class="basketTotalTitle">
+           Total Carrito
+           </h4>
+           <h4 class="basketTotal">
+           $ ${cartCost},00
+           </h4>
+  <button onclick="JSalert()">COMPRAR</button>
+  </div>`
+
+
+}
   
-     let deleteProduct = document.querySelectorAll('.delete-cart');
+*/
+
+
+  
+     /*let deleteProduct = document.querySelectorAll('.delete-cart');
      for(let i = 0; i< deleteProduct.length; i++){
-           deleteProduct[i].addEventListener('click',()=>{
-             deleteProd(inCart[i]);
+           deleteProduct[i].addEventListener('click',(e)=>{
+             deleteProd(e);
             })
 
-     }
+     } 
 
      let addProduct = document.querySelectorAll('.add-product')
      for (let i= 0; i < addProduct.length; i++){
-        addProduct[i].addEventListener('click',()=>{
-            cartNumbersCart(products[i]);
+        addProduct[i].addEventListener('click',(e)=>{
+            cartNumbersCart(e);
+            localStorage.setItem("productsInCart", JSON.stringify(cartItems))
+          
             })
     } 
 
@@ -68,133 +162,128 @@ function displayCart(){
         </div>
      
            `;
-
-           onLoadCartNumbersCart(); 
-    }
-displayCart();
-
-
-
-
-
-function JSalert(){
-	Swal.fire({  
-     
-    text: "Agregar email para recibir facturacion:",    
-    title: 'Finalizar compra',
-    input: 'email',   
-    showCancelButton: true,   
-    closeOnConfirm: false,   
-    animation: "slide-from-top",   
-    inputPlaceholder: "Your Email address" }, 
-    
-    function(inputValue){   
-        if (inputValue === false) 
-        return false;      
-           if (inputValue === "") {     
-            swal.showInputError("Please enter email!");     
-            return false   
-            }      
-         else {localStorage.clean();
-          onLoadCartNumbersCart(); 
-          displayCart();
-        }   
-        });
-
-}
+*/
+          
 
 
 
 
 
 
-/*PARA ELIMINAR PRODUCTO*/
 
-function deleteProd(producto){
-
-  let prod= Array.from(cartItems).find((p) => p.id === producto.id)
-    if (prod.inCart === 1) {
-        carrito.splice(carrito.findIndex(p => p.id == producto.id), 1)
-    } else {
-        prod.inCart--
-    }
-    ReduceItems(producto);
-    localStorage.setItem("productsInCart", JSON.stringify(cartItems))
-    decreceTotalCost(producto)
-    displayCart();
-}
-
-function cartNumbersReduce(){
-
-    let productNumbers = localStorage.getItem('cartNumbers');
-    //El tipo que trae es string//
-    productNumbers= parseInt(productNumbers);
-    if(productNumbers != 0 ){
-       localStorage.setItem('cartNumbers', productNumbers - 1);
-       document.querySelector('.cart span').textContent = productNumbers -1;
-    } else {
-       localStorage.setItem('cartNumbers', 0);
-       document.querySelector('.cart span').textContent = productNumbers;
-    }
-   
-   }
-
-
-function decreceTotalCost(product){
-    let cartCost = localStorage.getItem('totalCost');
-      cartCost = parseInt(cartCost);
-      localStorage.setItem("totalCost", cartCost - product.price);
-    } 
-
-  /*PARA AGREGAR PRODUCTO*/
+/*AGREGAR PRODUCTOS */
 
 
 function setItemsCart(p){
-    const prod = products.find(prod => prod.id == p.id )
-    if (cartItems.find (prod => prod.id== p.id)){
-        const prod = cartItems.find(prod => prod.id == p.id)
-        prod.inCart++
-    } else {
-        cartItems.push({
-            ...prod,
-            inCart: 1
-        })
-        
-    }
-    localStorage.setItem("productsInCart", JSON.stringify(cartItems))
-    totalCostCart(p[i]);
-    displayCart();
+      const prod = cartItems.find(prod => prod.id == p.id)
+      prod.inCart++
+  localStorage.setItem("productsInCart", JSON.stringify(cartItems));
 } 
 
-  
+
 
 function cartNumbersCart(product) {
 
   let productNumbers = localStorage.getItem('cartNumbers');
+  //El tipo que trae es string//
   productNumbers = parseInt(productNumbers);
-  if (productNumbers) {
-      localStorage.setItem('cartNumbers', productNumbers + 1);
-      document.querySelector('.cart span').textContent = productNumbers + 1;
+
+  localStorage.setItem('cartNumbers', productNumbers + 1);
+  document.querySelector('.cart span').textContent = productNumbers + 1;
+  setItemsCart(product);
+  onLoadCartNumbersCart();
+  const prod = cartItems.find(prod => prod.id == product.id)
+  resetProduct(prod);
+}
+
+
+
+function totalCost(product) {
+  let cartCost = localStorage.getItem('totalCost');
+  if (cartCost != null) {
+      cartCost = parseInt(cartCost) + product.price;
+      localStorage.setItem("totalCost", cartCost);
   } else {
-      localStorage.setItem('cartNumbers', 1);
-      document.querySelector('.cart span').textContent = productNumbers;
+      localStorage.setItem("totalCost", product.price);
   }
-  setItems(product);
 }
 
 
- function totalCostCart(product){
-    let cartCost = localStorage.getItem('totalCost');
-    if(cartCost != null){
-      cartCost = parseInt(cartCost);
-      localStorage.setItem("totalCost", cartCost + product.price);
-    } else {
-    localStorage.setItem("totalCost", product.price);
-    }
+function decreceTotalCost(product) {
+  let totalItems = localStorage.getItem('cartNumbers');
+  let cartCost = localStorage.getItem('totalCost');
+  cartCost = parseInt(cartCost) - product.price;
+  if(totalItems < 0 )
+  {cartCost = totalItems }
+  localStorage.setItem("totalCost", cartCost);
+
 }
-  
+
+
+function cartNumbersDecrece(product) {
+
+  let productNumbers = localStorage.getItem('cartNumbers');
+  //El tipo que trae es string//
+  productNumbers = parseInt(productNumbers);
+   if(productNumbers != 0 ){
+  localStorage.setItem('cartNumbers', productNumbers - 1);
+  document.querySelector('.cart span').textContent = productNumbers - 1;
+  deleteItem(product);
+   }
+   onLoadCartNumbersCart();
+   const prod = cartItems.find(prod => prod.id == product.id)
+   resetProduct(prod)
+}
 
 
 
+
+
+/*ELIMINAR PRODUCTOS */
+
+
+
+function deleteItem(p) {
+  const prod = cartItems.find(prod => prod.id == p.id )
+  if (prod.inCart === 1) {
+      cartItems.splice(cartItems.findIndex(prod => prod.id == p.id), 1)
+  } else {
+      prod.inCart--
+  }
+
+localStorage.setItem('productsInCart', JSON.stringify(cartItems))
+
+}
+
+
+function resetProduct(product){
+
+  let containerProd =  document.querySelector("#"+product.tag);
+  containerProd.innerHTML = 
+  `   <button class="delete-cart cart${product.id}  onclick="quitarDelCarrito(${product.id})"" >ELIMINAR</button> 
+  <button class="add-product cart${product.id}" >AGREGAR</button> 
+  <div class="product">
+ 
+  <div class="product-reference">
+    <img src="./image/${product.tag}.jpg"> </img>
+    <span>${product.name}</span>
+    
+    </div>
+
+
+    <div class="price"> ${product.price}</div>
+    <div class="quantity"> 
+ 
+    <span > ${product.inCart} </span>
+   
+    </div>
+    <div class="total" >
+    $${product.inCart * product.price},00
+    </div>
+    </div>
+
+    `;
+
+}
 
 

@@ -200,3 +200,33 @@ ion-icon {width: 20px;}
     display: flex;
     flex-direction: column;
 }
+
+.products div {width: 100%;}
+
+
+.formCompra {
+    width: 480px;
+}
+
+.formCompra input {
+    padding: 10px;
+    border: 1px solid rgb(243, 194, 194);
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.formCompra button {
+    width: 100%;
+    background-color: lightcoral ;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.flip {
+    transform: rotate(180deg);
+}
