@@ -26,8 +26,14 @@ document.querySelector('#confirmarCompra').addEventListener('click', (e) => {
     localStorage.removeItem("productsInCart")
     localStorage.removeItem("totalCost")
     localStorage.removeItem("cartNumbers")
+    redireccionar();
 
     setTimeout(() => {
         window.location.href = "/"
     }, 3000)
 })
+
+
+
+
+function redireccionar(){ document.location.href=index.html;}

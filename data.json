@@ -23,6 +23,32 @@
         "price": 2500,
         "inCart": 0,
         "id": "3"
+        },
+
+        {   
+            "name": "Contorno de Ojos",
+            "tag": "contorno_ojos",
+            "price": 3000,
+            "inCart": 0,
+            "id": "4"
+            },
+
+
+            {   
+                "name": "serum",
+                "tag": "cerum",
+                "price": 3500,
+                "inCart": 0,
+                "id": "5"
+                },
+
+
+                {   
+        "name": "acne depure",
+        "tag": "acne",
+        "price": 3000,
+        "inCart": 0,
+        "id": "6"
         }
     
     ]

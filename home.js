@@ -1,9 +1,8 @@
 
 
-
 let number = 0;
 
-localStorage.setItem("totalCost", 0);
+
 
 async function fetchProducts() {
     let response = await fetch('./data.json')
